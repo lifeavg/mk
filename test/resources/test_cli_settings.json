@@ -1,0 +1,5 @@
+{
+    "host": "https://31164062-5ac5-409f-87e4-534f58745d07.mock.pstmn.io",
+    "api_request_timeout": 20,
+    "shutdown_disabled": true
+}

@@ -1,0 +1,5 @@
+{
+    "host": "https://mock.io",
+    "api_request_timeout": 20,
+    "shutdown_disabled": true
+}
