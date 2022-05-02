@@ -8,7 +8,10 @@ def main() -> None:
         print(err)
         return
     app = cli.Cli(path)
-    app.load()
-    app.run(['mapping', '-get'])
+    err = app.load()
+    if err is not None:
+        print(err)
+    app.run()
 
-main()
+if __name__ == '__main__':
+    main()

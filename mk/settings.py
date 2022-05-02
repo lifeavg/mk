@@ -26,10 +26,17 @@ class Settings:
     @staticmethod
     def load(settings_file: pathlib.Path) -> tuple[Settings, str | None]:
         err = None
+        new_settings = Settings()
         try:
             with settings_file.open('rb') as settings:
                 json_settings: dict[str, Any] = json.load(settings)
-                return Settings.generate(**json_settings), err
+                new_settings = Settings.generate(**json_settings)
+                if not new_settings.host:
+                    err = f'Default host not set in {settings_file}'
+                if not new_settings.api_request_timeout:
+                    err = f'api_request_timeout not set in {settings_file}'
+                if new_settings.shutdown_disabled is None:
+                    err = f'shutdown_disabled not set in {settings_file}'
         except json.JSONDecodeError as exception:
             err = f'JSON decode error. {exception.msg}: line {exception.lineno} ' \
                 f'column {exception.colno} (char {exception.pos}). File {settings_file}'
@@ -41,7 +48,7 @@ class Settings:
             err = f'{exception.errno} Unable to read, permission denied {settings_file}'
         except BlockingIOError  as exception:
             err = f'{exception.errno} Unable to read, file in use by another app {settings_file}'
-        return Settings(), err
+        return new_settings, err
 
     def write(self, settings_file: pathlib.Path) -> None | str:
         err = None

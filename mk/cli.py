@@ -19,7 +19,6 @@ def print_if_resp(data: Any | None, err: str | None) -> None:
             print(data)
 
 
-
 def iterate_request(function: Callable[...,tuple[Any | None, str | None]],
                     args: Any) -> tuple[Any | None, str | None]:
     result_data = ""
@@ -169,23 +168,41 @@ class Cli(handlers.App):
         settings.add_argument('-shutdown-disable', action='store_true',
                               help="Disallow to shutdown service by request.")
 
+
+
+
     def run(self, cli_args: list[str] | None = None) -> None:
         args = self.arguments.parse_args(cli_args)
         match args.command:
             case 'service':
-                print_if_resp(*self._process_service(args))
+                if not self.loaded:
+                    print('Please, load valid settings first')
+                else:
+                    print_if_resp(*self._process_service(args))
             case 'mapping':
-                print_if_resp(*self._process_mappings(args))
+                if not self.loaded:
+                    print('Please, load valid settings first')
+                else:
+                    print_if_resp(*self._process_mappings(args))
             case 'journal':
-                print_if_resp(*self._process_journal(args))
+                if not self.loaded:
+                    print('Please, load valid settings first')
+                else:
+                    print_if_resp(*self._process_journal(args))
             case 'record':
-                print_if_resp(*self._process_recordings(args))
+                if not self.loaded:
+                    print('Please, load valid settings first')
+                else:
+                    print_if_resp(*self._process_recordings(args))
             case 'scenario':
-                print_if_resp(*self._process_scenarios(args))
+                if not self.loaded:
+                    print('Please, load valid settings first')
+                else:
+                    print_if_resp(*self._process_scenarios(args))
             case 'settings':
                 print_if_resp(*self._process_settings(args))
             case _:
-                print("Error during handling arguments. Use -h to get halp.")
+                print("Error during handling arguments. Use -h to get help.")
 
     def _process_service(self, args: argparse.Namespace) -> tuple[Any | None, str | None]:
         if args.delay:

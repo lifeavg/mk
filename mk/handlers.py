@@ -422,8 +422,7 @@ class Settings:
 
     def load(self) -> None | str:
         new_settings, err = settings.Settings.load(self.file)
-        if err is None:
-            self.current = new_settings
+        self.current = new_settings
         return err
 
     def save(self) -> None | str:
@@ -467,6 +466,7 @@ class App:
 
     def __init__(self, settings_file: pathlib.Path) -> None:
         self.settings: Settings = Settings(settings_file)
+        self.loaded = False
         self.service: Service
         self.mappings: Mappings
         self.journal: Journal
@@ -485,3 +485,4 @@ class App:
         if err is not None:
             return err
         self.reset()
+        self.loaded = True
