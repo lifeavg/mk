@@ -6,15 +6,7 @@ from dataclasses import asdict, dataclass
 
 
 def get_config_path(platform: str) -> tuple[pathlib.Path, str | None]:
-    match platform:
-        # case 'Linux':
-        #     return (pathlib.Path(), None)
-        # case 'Darwin':
-        #     return (pathlib.Path(), None)
-        case 'Windows':
-            return (pathlib.Path.home().joinpath(r".wmk\settings.json"), None)
-        case _:
-            return (pathlib.Path(), f'OS {platform} is not supported')
+    return (pathlib.Path(__file__).parent.joinpath(pathlib.Path("settings.json")), None)
 
 
 @dataclass(frozen=True)

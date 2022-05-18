@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mk"
+version = "0.1.0"
+description = "Mock API handler."
+requires-python = ">=3.10"
+classifiers = [
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "requests >= 2.27.1",
+]
+
+[project.scripts]
+wmk = "mk.main:main"
+
+[project.urls]
+Source = "https://github.com/lifeavg/mk"
